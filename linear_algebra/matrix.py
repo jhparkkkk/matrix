@@ -15,7 +15,7 @@ class Matrix:
             if i == 0:
                 display += f"{str(row)}\n"
             else:
-                display += f"    {str(row)}\n"
+                display += f"      {str(row)}\n"
             i += 1
         return display
 
@@ -39,6 +39,19 @@ class Matrix:
         self.data = [[a * b for b in row] for row in self.data]
         return self
     
+    def lerp(self, other, scalar) -> 'linear_algebra.matrix.Matrix':
+        res_data = [
+            [
+                (1 - scalar) * a + (scalar * b)
+                for  a, b in zip(row_a, row_b)
+                ]
+                for row_a, row_b in zip(self.data, other.data)
+                ]
+        # TODO: to debug
+        # for i in range(len(res_data)):
+        #     for j in range(len(res_data[0])):
+        #         print(f"iteration {i * len(res_data[0]) + j + 1}: i={i} j={j} a = {self.data[i][j]}, b = {other.data[i][j]}")
+        return Matrix(res_data)
     def get_shape(self):
         """Returns shape of matrix
 

@@ -126,6 +126,6 @@ class Vector:
         self.data = [a * b for b in self.data]
         return self
     
-
-    # def linear_combination(u:['linear_algebra.vector.Vector'], coef: [float]) -> 'linear_algebra.vector.Vector':
-    #     print('linear_combination')
+    def lerp(self, other, scalar) -> 'linear_algebra.vector.Vector':
+        return Vector([round((1 - scalar) * a + scalar * b, 2) for a, b in zip(self.data, other.data)])
+    
