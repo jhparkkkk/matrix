@@ -45,7 +45,8 @@ class TestVector(unittest.TestCase):
         print(f"u = {u.__str__()}")
         print(f"v = {v.__str__()}")
         print(f"u = {u.__str__()} + {v.__str__()}")
-        self.assertEqual(u.add(v), [7.0, 10.0])
+        u.add(v)
+        self.assertEqual(u.data, [7.0, 10.0])
         print(f"u = {u.__str__()}\n")
 
         u = Vector([2.])
@@ -54,9 +55,11 @@ class TestVector(unittest.TestCase):
         print(f"v = {v.__str__()}")
         print(f"u = {u.__str__()} + {v.__str__()}")
         try:
-            self.assertEqual(u.add(v), [7.0, 10.0])
+            self.assertEqual(u.add(v), Vector([7.0, 10.0]))
         except ValueError as error:
             print(f"ValueError: {error}")
+
+
         
     def test_subtract(self):
         """test substract a vector
@@ -66,7 +69,8 @@ class TestVector(unittest.TestCase):
         print(f"u = {u.__str__()}")
         print(f"v = {v.__str__()}")
         print(f"u = {u.__str__()} + {v.__str__()}")
-        self.assertEqual(u.sub(v), [-3.0, -4.0])
+        u.sub(v)
+        self.assertEqual(u.data, [-3.0, -4.0])
         print(f"u = {u.__str__()}\n")
 
         u = Vector([2.])
@@ -84,7 +88,8 @@ class TestVector(unittest.TestCase):
         """
         u = Vector([2., 3.])
         print(f"u = {u.__str__()} * 2")
-        self.assertEqual(u.scl(2.), [4.0, 6.0])
+        u.scl(2.)
+        self.assertEqual(u.data, [4.0, 6.0])
         print(f"u = {u.__str__()}")
 
 class TestMatrix(unittest.TestCase):
@@ -97,7 +102,7 @@ class TestMatrix(unittest.TestCase):
 
 
     def setUp(self):
-        print(self.shortDescription())
+        print(Fore.LIGHTCYAN_EX, self.shortDescription(), Fore.RESET)
 
     def test_utils(self):
         """test utilitary functions
@@ -106,18 +111,52 @@ class TestMatrix(unittest.TestCase):
         - reshape()
         - is_square() 
         """
-#     def test_add(self):
-#         """test add a matrix
-#         """
-#         test = Matrix()
-#         self.assertEqual(test.add(), "add")
-        
-#     def test_subtract(self):
-#         """test substract a matrix
-#         """
-#         test = Matrix()
+        u = Matrix([[1., 2.], [3., 4.]])
+        print(f"u = {u.__str__()}")
+        self.assertEqual(u.get_shape(), (2, 2))
+        self.assertEqual(u.is_square(), True)
 
-#     def test_scale(self):
-#         """test multiply a matrix by a scalar
-#         """
-#         test = Matrix()
+        reshaped = u.reshape()
+        print("reshaped matrix to one dimensional vector:", reshaped)
+        self.assertEqual(reshaped, [1.0, 2.0, 3.0, 4.0])
+    
+    def test_add(self):
+        """test add a matrix
+        """
+        u = Matrix([[1., 2.], [3., 4.]])
+        v = Matrix([[7., 4.], [-2., 2.]])
+        print(f"u = {u.__str__()}")
+        print(f"v = {v.__str__()}")
+        u.add(v)
+        self.assertEqual(u.data,  [[8.0, 6.0], [1.0, 6.0]])
+        print(f"u = {u.__str__()}")
+
+        u = Matrix([[1.], [3.]])
+        v = Matrix([[7., 4.], [-2., 2.]])
+        print(f"u = {u.__str__()}")
+        print(f"v = {v.__str__()}")
+        try:
+            self.assertEqual(u.add(v),  [[8.0, 6.0], [1.0, 6.0]])
+        except ValueError as error:
+            print(f"ValueError: {error}")
+
+    def test_subtract(self):
+        """test substract a matrix
+        """
+        u = Matrix([[1., 2.], [3., 4.]])
+        v = Matrix([[7., 4.], [-2., 2.]])
+        print(f"u = {u.__str__()}")
+        print(f"v = {v.__str__()}")
+        u.sub(v)
+        self.assertEqual(u.data, [[-6.0, -2.0], [5.0, 2.0]])
+        print(f"u = {u.__str__()}")
+
+    def test_scale(self):
+        """test multiply a matrix by a scalar
+        """
+        u = Matrix([[1., 2.], [3., 4.]])
+        print(f"u = {u.__str__()}")
+        u.scl(2.)
+        self.assertEqual(u.data, [[2.0, 4.0], [6.0, 8.0]])
+        print(f"u = {u.__str__()}")
+

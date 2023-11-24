@@ -10,59 +10,47 @@ class Vector:
             assert len(data) != 0, "cannot init an empty vector"
             # TODO: cast all values in float ? 
             # self.data = [float(x) for x in data]
-            self.data = data
+            if all(isinstance(x, (float, int)) for x in data):
+                self.data = data
+            else:
+                raise ValueError("All elements in vector must be float or int")
         except AssertionError as e:
             print('error:', e)
 
     def __str__(self):
         return str(self.data)
-
-    def add(self, v: 'linear_algebra.vector.Vector'):
-        """Adds another vector to this vector
+    
+    def __setitem__(self, index: int, value: float):
+        """Set the value at the specified index in the vector.
 
         Args:
-            v (linear_algebra.vector.Vector): the other vector to add 
+            index (int): The index at which to set the value.
+            value (float): The new value to set.
 
         Raises:
-            ValueError: if vectors dimensions don't match
-
-        Returns:
-            Vector: updated Vector
+            IndexError: If the index is out of range.
         """
-        if len(self.data) != len(v.data):
-           raise ValueError(f"cannot add vector of size {len(self.data)} and vector of size {len(v.data)}")
-        self.data = [a + b for a, b in zip(self.data, v.data)]
-        return self.data
-    
-    def sub(self, v: 'linear_algebra.vector.Vector'):
-        """Substract this vector by another vector
+        if 0 <= index < len(self.data):
+            self.data[index] = value
+        else:
+            raise IndexError("Index out of range")
+    def __getitem__(self, index):
+        """Get the value at the specified index in the vector.
 
         Args:
-            v (linear_algebra.vector.Vector): the other vector to substract
+            index (int): The index to retrieve.
+
+        Returns:
+            float: The value at the specified index.
 
         Raises:
-            ValueError: if vectors dimensions don't match
-
-        Returns:
-            Vector: updated Vector
+            IndexError: If the index is out of range.
         """
-        if len(self.data) != len(v.data):
-           raise ValueError(f"cannot add vector of size {len(self.data)} and vector of size {len(v.data)}")
-        self.data = [a - b for a, b in zip(self.data, v.data)]
-        return self.data
+        if 0 <= index < len(self.data):
+            return self.data[index]
+        else:
+            raise IndexError("Index out of range")
 
-    def scl(self, a: float):
-        """Scales the vector by a scalar.
-
-        Args:
-            scalar (float): the scalar value.
-
-        Returns:
-            Vector: a new vector representing the scaled vector.
-        """
-        self.data = [a * b for b in self.data]
-        return self.data
-    
     def get_size(self):
         """Returns size of vector
 
@@ -91,3 +79,53 @@ class Vector:
             row = self.data[i * column : (i + 1) * column]
             reshaped_matrix.append(row)
         return reshaped_matrix
+
+    def add(self, v: 'linear_algebra.vector.Vector'):
+        """Adds another vector to this vector
+
+        Args:
+            v (linear_algebra.vector.Vector): the other vector to add 
+
+        Raises:
+            ValueError: if vectors dimensions don't match
+
+        Returns:
+            Vector: updated Vector
+        """
+        if len(self.data) != len(v.data):
+           raise ValueError(f"cannot add vector of size {len(self.data)} and vector of size {len(v.data)}")
+        self.data = [a + b for a, b in zip(self.data, v.data)]
+        return self
+    
+    def sub(self, v: 'linear_algebra.vector.Vector'):
+        """Substract this vector by another vector
+
+        Args:
+            v (linear_algebra.vector.Vector): the other vector to substract
+
+        Raises:
+            ValueError: if vectors dimensions don't match
+
+        Returns:
+            Vector: updated Vector
+        """
+        if len(self.data) != len(v.data):
+           raise ValueError(f"cannot add vector of size {len(self.data)} and vector of size {len(v.data)}")
+        self.data = [a - b for a, b in zip(self.data, v.data)]
+        return self
+
+    def scl(self, a: float):
+        """Scales the vector by a scalar.
+
+        Args:
+            scalar (float): the scalar value.
+
+        Returns:
+            Vector: a new vector representing the scaled vector.
+        """
+        self.data = [a * b for b in self.data]
+        return self
+    
+
+    # def linear_combination(u:['linear_algebra.vector.Vector'], coef: [float]) -> 'linear_algebra.vector.Vector':
+    #     print('linear_combination')

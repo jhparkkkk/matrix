@@ -1,6 +1,9 @@
 import unittest
 import os
 import sys
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(SCRIPT_DIR))
+
 
 def run_all_tests():
     current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -15,12 +18,9 @@ def run_all_tests():
         for file in files:
             if file.endswith("test.py"):
                 test_directory = os.path.relpath(root, current_directory)
-                print(test_directory)
                 test_module = file[:-3]
-                print(test_module)
                 full_module_path = f"{test_directory}.{test_module}"
                 test_suite = loader.loadTestsFromName(full_module_path)
-                print(test_suite)
                 all_tests_suite.addTest(test_suite)
 
     # Run test suite
