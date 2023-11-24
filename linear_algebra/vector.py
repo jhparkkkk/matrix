@@ -80,6 +80,15 @@ class Vector:
             reshaped_matrix.append(row)
         return reshaped_matrix
 
+    def ft_sqrt(self, value: float):
+        """calculate square root of value by calculating value power 0.5
+        Args:
+            value (float): value to operate on
+        Returns:
+        float: result
+        """
+        return value ** (0.5)
+
     def add(self, v: 'linear_algebra.vector.Vector'):
         """Adds another vector to this vector
 
@@ -135,4 +144,21 @@ class Vector:
         res = 0
         for a, b in zip(self.data, v.data):
             res += a*b 
-        return res 
+        return res
+
+    def norm_1(self) -> float:
+        res = 0.
+        for x in self.data:
+            res += abs(x)
+        return res
+    
+    def norm(self) -> float:
+        res = 0.0
+        for x in self.data:
+            res += pow(x, 2)
+        return self.ft_sqrt(res)
+
+    def norm_inf(self) -> float:
+        res = [abs(ele) for ele in self.data]
+        return max(res)    
+        
