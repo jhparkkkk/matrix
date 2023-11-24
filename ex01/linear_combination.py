@@ -6,7 +6,8 @@ from colorama import Fore
 
 def linear_combination(u, coef: [float]) -> 'linear_algebra.vector.Vector':
     """
-    Computes a linear combination of vectors
+    Computes a linear combination of vectors: multiply vector[i] by scalar[i]
+then add vectors 
 
     Args:
         u (list[Vector]): List of vectors to be combined
@@ -22,11 +23,12 @@ def linear_combination(u, coef: [float]) -> 'linear_algebra.vector.Vector':
     if size != len(coef):
         raise ValueError("cannot compute linear combination of vector if size u doesn't match with size of coef")  
     res = Vector([0.] * len(u[0].data))
+    for i in range(size):
+        res.add(u[i].scl(coef[i]))
+    return res
+
     # TODO: matrix linear combination
     # matrix_size = u[0].get_shape()
     # print('matrix size:', matrix_size)
     # Initialize res as a matrix with zeros
     # res = Matrix([[0.] * matrix_size[0] for _ in range(matrix_size[1])])
-    for i in range(size):
-        res.add(u[i].scl(coef[i]))
-    return res

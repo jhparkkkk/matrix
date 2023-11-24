@@ -129,3 +129,10 @@ class Vector:
     def lerp(self, other, scalar) -> 'linear_algebra.vector.Vector':
         return Vector([round((1 - scalar) * a + scalar * b, 2) for a, b in zip(self.data, other.data)])
     
+    def dot(self, v: 'linear_algebra.vector.Vector') -> 'linear_algebra.vector.Vector':
+        if len(self.data) != len(v.data):
+            raise ValueError(f"cannot operate dot product if vector size don't match")
+        res = 0
+        for a, b in zip(self.data, v.data):
+            res += a*b 
+        return res 
