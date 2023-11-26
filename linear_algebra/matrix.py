@@ -1,3 +1,5 @@
+from linear_algebra.vector import Vector
+
 class Matrix:
     def __init__(self, data: list[float]):
         try:
@@ -5,6 +7,8 @@ class Matrix:
             # TODO: cast all values in float ? 
             # self.data = [float(x) for x in data]
             self.data = data
+            self.rows = len(data)
+            self.cols = len(data[0])
         except AssertionError as e:
             print('error:', e)
     
@@ -15,9 +19,26 @@ class Matrix:
             if i == 0:
                 display += f"{str(row)}\n"
             else:
-                display += f"      {str(row)}\n"
+                display += f"{str(row)}\n"
             i += 1
         return display
+    
+    def __getitem__(self, index):
+        """Get the value at the specified index in the vector.
+
+        Args:
+            index (int): The index to retrieve.
+
+        Returns:
+            float: The value at the specified index.
+
+        Raises:
+            IndexError: If the index is out of range.
+        """
+        if 0 <= index < len(self.data):
+            return self.data[index]
+        else:
+            raise IndexError("Index out of range")
 
     def add(self, v: 'linear_algebra.matrix.Matrix'):
         if len(self.data) != len(v.data) or len(self.data[0]) != len(v.data[0]):
@@ -56,7 +77,7 @@ class Matrix:
         """Returns shape of matrix
 
         Returns:
-            int, int: column size, row size
+            int, int: row size, column size
         """
         return len(self.data), len(self.data[0])
 
@@ -66,4 +87,23 @@ class Matrix:
     def reshape(self):
         reshaped = [element for row in self.data for element in row]
         return reshaped
+    
+    def mul_vec(self, vec:'linear_algebra.vector.Vector') -> 'linear_algebra.vector.Vector':
+        if self.cols != vec.get_size():
+            raise ValueError("matrix must have as many columns as vector entries")
+        return Vector([sum(row[i] * vec[i] for i in range(self.cols)) for row in self.data])
+    
+    def mul_mat(self, mat:'linear_algebra.matrix.Matrix') -> 'linear_algebra.matrix.Matrix':
+        if self.cols != mat.rows:
+            raise ValueError("invalid matrix")
+        return Matrix([[sum(self.data[i][k] * mat.data[k][j] for k in range(self.cols)) for j in range(mat.cols)] for i in range(self.rows)])
+    
+    def trace(self) -> float | int:
+        res = 0
+        for i in range(self.rows):
+            res += self.data[i][i]
+        return res
+
+    def transpose(self) -> 'linear_algebra.matrix.Matrix':
+        return Matrix([[self.data[j][i] for j in range(len(self.data))] for i in range(len(self.data[0]))])
 
