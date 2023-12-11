@@ -1,9 +1,10 @@
 from typing import TypeVar
 
-V = TypeVar('V')
+V = TypeVar("V")
+
 
 def lerp(u: V, v: V, t: float) -> V:
-     """
+    """
     Performs linear interpolation between two values or objects: find a value between two known values
     based on a parameter `t` that specifies the interpolation factor (weight)
 
@@ -23,7 +24,7 @@ def lerp(u: V, v: V, t: float) -> V:
         raise ValueError("scalar t must be 0 ≤ t ≤ 1")
     if isinstance(u, (int, float)) and isinstance(v, (int, float)):
         return round((1 - t) * u + t * v, 2)
-    elif hasattr(u, 'lerp') and callable(getattr(u, 'lerp')):
+    elif hasattr(u, "lerp") and callable(getattr(u, "lerp")):
         return u.lerp(v, t)
     else:
         raise TypeError("invalid type to compute linear interpolation")

@@ -4,10 +4,12 @@ from linear_algebra.matrix import Matrix
 from colorama import Fore
 
 
-def linear_combination(u, coef: [float]) -> 'linear_algebra.vector.Vector':
+def linear_combination(u: list[Vector], coef: [float]) -> Vector:
     """
     Computes a linear combination of vectors: multiply vector[i] by scalar[i]
-then add vectors 
+    then add vectors
+
+    B = c1⋅v1 + c2⋅v2 + … + cn⋅vn
 
     Args:
         u (list[Vector]): List of vectors to be combined
@@ -15,20 +17,19 @@ then add vectors
 
     Returns:
         Vector: result vector from the linear combination.
-        
+
     Raises:
         ValueError: If the dimensions of the vectors don't match or if the sizes of u and coef are different.
     """
-    size = len(u)
-    if size != len(coef):
-        raise ValueError("cannot compute linear combination of vector if size u doesn't match with size of coef")  
-    res = Vector([0.] * len(u[0].data))
-    for i in range(size):
-        res.add(u[i].scl(coef[i]))
-    return res
-
-    # TODO: matrix linear combination
-    # matrix_size = u[0].get_shape()
-    # print('matrix size:', matrix_size)
-    # Initialize res as a matrix with zeros
-    # res = Matrix([[0.] * matrix_size[0] for _ in range(matrix_size[1])])
+    if not isinstance(u, list) or not all(isinstance(vec, Vector) for vec in u):
+        raise TypeError("u must be a list of Vector objects")
+    if not isinstance(coef, list) or not all(isinstance(c, float) for c in coef):
+        raise TypeError("coef must be a list of floats")
+    if len(u) != len(coef):
+        raise ValueError(
+            "cannot compute linear combination of vector if size u doesn't match with size of coef"
+        )
+    vec_linear_combination = Vector([0.0] * len(u[0].data))
+    for i in range(len(u)):
+        vec_linear_combination.add(u[i].scl(coef[i]))
+    return vec_linear_combination

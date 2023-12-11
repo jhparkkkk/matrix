@@ -1,5 +1,4 @@
 class Vector:
-
     def __init__(self, data: list[float]):
         """initialize a vector with the given data
 
@@ -8,18 +7,16 @@ class Vector:
         """
         try:
             assert len(data) != 0, "cannot init an empty vector"
-            # TODO: cast all values in float ? 
-            # self.data = [float(x) for x in data]
             if all(isinstance(x, (float, int)) for x in data):
                 self.data = data
             else:
                 raise ValueError("All elements in vector must be float or int")
         except AssertionError as e:
-            print('error:', e)
+            print("error:", e)
 
     def __str__(self):
         return str(self.data)
-    
+
     def __setitem__(self, index: int, value: float):
         """Set the value at the specified index in the vector.
 
@@ -34,6 +31,7 @@ class Vector:
             self.data[index] = value
         else:
             raise IndexError("Index out of range")
+
     def __getitem__(self, index):
         """Get the value at the specified index in the vector.
 
@@ -73,7 +71,9 @@ class Vector:
             list[[]]: reshaped matrix
         """
         if row * column != len(self.data):
-           raise ValueError(f"cannot reshape array of size {len(self.data)} into shape ({row},{column})")
+            raise ValueError(
+                f"cannot reshape array of size {len(self.data)} into shape ({row},{column})"
+            )
         reshaped_matrix = []
         for i in range(row):
             row = self.data[i * column : (i + 1) * column]
@@ -89,11 +89,11 @@ class Vector:
         """
         return value ** (0.5)
 
-    def add(self, v: 'linear_algebra.vector.Vector'):
+    def add(self, v: "linear_algebra.vector.Vector"):
         """Adds another vector to this vector
 
         Args:
-            v (linear_algebra.vector.Vector): the other vector to add 
+            v (linear_algebra.vector.Vector): the other vector to add
 
         Raises:
             ValueError: if vectors dimensions don't match
@@ -102,11 +102,13 @@ class Vector:
             Vector: updated Vector
         """
         if len(self.data) != len(v.data):
-           raise ValueError(f"cannot add vector of size {len(self.data)} and vector of size {len(v.data)}")
+            raise ValueError(
+                f"cannot add vector of size {len(self.data)} and vector of size {len(v.data)}"
+            )
         self.data = [a + b for a, b in zip(self.data, v.data)]
         return self
-    
-    def sub(self, v: 'linear_algebra.vector.Vector'):
+
+    def sub(self, v: "linear_algebra.vector.Vector"):
         """Substract this vector by another vector
 
         Args:
@@ -119,7 +121,9 @@ class Vector:
             Vector: updated Vector
         """
         if len(self.data) != len(v.data):
-           raise ValueError(f"cannot add vector of size {len(self.data)} and vector of size {len(v.data)}")
+            raise ValueError(
+                f"cannot add vector of size {len(self.data)} and vector of size {len(v.data)}"
+            )
         self.data = [a - b for a, b in zip(self.data, v.data)]
         return self
 
@@ -134,31 +138,79 @@ class Vector:
         """
         self.data = [a * b for b in self.data]
         return self
-    
-    def lerp(self, other, scalar) -> 'linear_algebra.vector.Vector':
-        return Vector([round((1 - scalar) * a + scalar * b, 2) for a, b in zip(self.data, other.data)])
-    
-    def dot(self, v: 'linear_algebra.vector.Vector') -> 'linear_algebra.vector.Vector':
+
+    def lerp(self, other, scalar) -> "linear_algebra.vector.Vector":
+        """
+        Performs linear interpolation (LERP) between two vectors.
+
+        Args:
+            other (Vector): The vector to interpolate towards.
+            scalar (float): The interpolation parameter. Should be in the range [0, 1].
+
+        Returns:
+            Vector: The result of the linear interpolation.
+
+        Raises:
+            ValueError: If the length of the vectors does not match.
+        """
+        return Vector(
+            [
+                round((1 - scalar) * a + scalar * b, 2)
+                for a, b in zip(self.data, other.data)
+            ]
+        )
+
+    def dot(self, v: "linear_algebra.vector.Vector") -> "linear_algebra.vector.Vector":
+        """Compute the dot product of this vector with another vector.
+            
+            a · b = |a| * |b|
+            a · b = ax * bx + ay * by
+        
+        Args:
+            v (linear_algebra.vector.Vector): The other vector.
+
+        Raises:
+            ValueError: If vectors have different sizes.
+
+        Returns:
+            float: The dot product of the two vectors.
+        """
         if len(self.data) != len(v.data):
             raise ValueError(f"cannot operate dot product if vector size don't match")
         res = 0
         for a, b in zip(self.data, v.data):
-            res += a*b 
+            res += a * b
         return res
 
     def norm_1(self) -> float:
-        res = 0.
+        """Compute the L1 norm (Manhattan norm) of the vector.
+            
+            ∥v∥1
+
+        Returns:
+            float: The L1 norm of the vector.
+        """
+        res = 0.0
         for x in self.data:
             res += abs(x)
         return res
-    
+
     def norm(self) -> float:
+        """Compute the Euclidean norm (L2 norm) of the vector.
+
+        Returns:
+            float: The Euclidean norm of the vector.
+        """
         res = 0.0
         for x in self.data:
             res += pow(x, 2)
         return self.ft_sqrt(res)
 
     def norm_inf(self) -> float:
+        """Compute the infinity norm of the vector.
+
+        Returns:
+            float: The infinity norm of the vector.
+        """
         res = [abs(ele) for ele in self.data]
-        return max(res)    
-        
+        return max(res)

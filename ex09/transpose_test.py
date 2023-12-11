@@ -10,7 +10,7 @@ from colorama import Fore
 class TestMatrix(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        print('\n[Exercice 00] add, substract and scale')
+        print('\n[Exercice 09] transpose')
         print('----------------------------------------------------------------------')
         print('\n[matrix]')
         print('----------------------------------------------------------------------')
