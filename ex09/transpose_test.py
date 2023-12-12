@@ -12,10 +12,11 @@ class TestMatrix(unittest.TestCase):
     def setUpClass(cls):
         print('\n[Exercice 09] transpose')
         print('----------------------------------------------------------------------')
-        print('\n[matrix]')
-        print('----------------------------------------------------------------------')
     def setUp(self):
-        print(Fore.LIGHTCYAN_EX, self.shortDescription(), Fore.RESET)
+        print(Fore.LIGHTCYAN_EX)
+        print(self.shortDescription())
+        print(Fore.RESET)
+
     def test_transpose(self):
         mat = Matrix([[1., 2.], [3., 4.], [5., 6.]])
         transposed = mat.transpose()

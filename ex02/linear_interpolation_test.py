@@ -14,7 +14,6 @@ class TestVector(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         print("\n[Exercice 02] Linear interpolation")
-        print("\n[vector]")
         print("----------------------------------------------------------------------")
 
     def setUp(self):

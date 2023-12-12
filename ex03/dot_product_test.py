@@ -13,7 +13,6 @@ class TestVector(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         print("\n[Exercice 03] Dot product")
-        print("\n[vector]")
         print("----------------------------------------------------------------------")
 
     def setUp(self):

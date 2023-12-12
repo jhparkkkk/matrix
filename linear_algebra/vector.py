@@ -162,10 +162,10 @@ class Vector:
 
     def dot(self, v: "linear_algebra.vector.Vector") -> "linear_algebra.vector.Vector":
         """Compute the dot product of this vector with another vector.
-            
+
             a · b = |a| * |b|
             a · b = ax * bx + ay * by
-        
+
         Args:
             v (linear_algebra.vector.Vector): The other vector.
 
@@ -184,7 +184,7 @@ class Vector:
 
     def norm_1(self) -> float:
         """Compute the L1 norm (Manhattan norm) of the vector.
-            
+
             ∥v∥1
 
         Returns:

@@ -14,8 +14,6 @@ class TestMatrix(unittest.TestCase):
     def setUpClass(cls):
         print("\n[Exercice 07] linear map and matrix multiplication")
         print("----------------------------------------------------------------------")
-        print("\n[matrix]")
-        print("----------------------------------------------------------------------")
 
     def setUp(self):
         print(Fore.LIGHTCYAN_EX)

@@ -9,11 +9,6 @@ from colorama import Fore
 
 
 class TestVector(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        print("\n[vector]")
-        print("----------------------------------------------------------------------")
-
     def setUp(self):
         print(Fore.YELLOW)
         print(self.shortDescription())
@@ -30,7 +25,6 @@ class TestVector(unittest.TestCase):
         self.assertEqual(test.get_size(), 2)
         try:
             empty = Vector([])
-            print(empty)
         except TypeError as error:
             print(f"TypeError: {error}")
 
@@ -99,9 +93,6 @@ class TestMatrix(unittest.TestCase):
     def setUpClass(cls):
         print("\n[Exercice 00] add, substract and scale")
         print("----------------------------------------------------------------------")
-        print("\n[matrix]")
-        print("----------------------------------------------------------------------")
-
     def setUp(self):
         print(Fore.LIGHTCYAN_EX)
         print(self.shortDescription())

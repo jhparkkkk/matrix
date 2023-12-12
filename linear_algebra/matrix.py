@@ -5,6 +5,7 @@ class Matrix:
     def __init__(self, data: list[float]):
         try:
             assert len(data) != 0, "cannot init an empty matrix"
+            assert all(len(row) == len(data[0]) for row in data), "unequal number of elements in rows"
             self.data = data
             self.rows = len(data)
             self.cols = len(data[0])
@@ -124,15 +125,36 @@ class Matrix:
         return len(self.data), len(self.data[0])
 
     def is_square(self):
-        return len(self.data) == len(self.data[0])
+        """Returns if Matrix is square
 
-    def reshape(self):
+        Returns:
+            bool : True if Matrix is square, False otherwise
+        """
+        return self.rows == self.cols
+
+    def reshape(self) -> list:
+        """Reshape Matrix to 1D list
+
+        Returns:
+            list: 1D reshaped matrix 
+        """
         reshaped = [element for row in self.data for element in row]
         return reshaped
 
     def mul_vec(
         self, vec: "linear_algebra.vector.Vector"
     ) -> "linear_algebra.vector.Vector":
+        """Multiply matrix by a vector
+
+        Args:
+            vec (linear_algebra.vector.Vector): Vector to be multiplied
+
+        Raises:
+            ValueError: _description_
+
+        Returns:
+            linear_algebra.vector.Vector: _description_
+        """
         if self.cols != vec.get_size():
             raise ValueError("matrix must have as many columns as vector entries")
         return Vector(
@@ -142,6 +164,17 @@ class Matrix:
     def mul_mat(
         self, mat: "linear_algebra.matrix.Matrix"
     ) -> "linear_algebra.matrix.Matrix":
+        """Multiply the matrix by another matrix.
+
+        Args:
+            mat (linear_algebra.matrix.Matrix): Matrix to be multiplied
+
+        Raises:
+            ValueError: number of columns of self matrix must be equal to number of rows of mat matrix 
+
+        Returns:
+            linear_algebra.matrix.Matrix: resulting matrix
+        """
         if self.cols != mat.rows:
             raise ValueError("invalid matrix")
         return Matrix(
@@ -155,18 +188,29 @@ class Matrix:
         )
 
     def trace(self) -> float | int:
+        """Calculate the trace of the Matrix
+
+        Raises:
+            TypeError: Matrix must be square
+
+        Returns:
+            float | int: trace of the Matrix
+        """
+        if self.is_square() == False:
+            raise TypeError("Matrix is not square")
         res = 0
         for i in range(self.rows):
             res += self.data[i][i]
         return res
 
     def transpose(self) -> "linear_algebra.matrix.Matrix":
-        return Matrix(
-            [
-                [self.data[j][i] for j in range(len(self.data))]
-                for i in range(len(self.data[0]))
-            ]
-        )
+        """Transpose the Matrix. Rows become columns and columns become rows
+
+        Returns:
+            linear_algebra.matrix.Matrix: transposed matrix
+        """
+        transposed_data = [[row[i] for row in self.data] for i in range(self.cols)]
+        return Matrix(transposed_data)
 
     def row_echelon(self) -> "linear_algebra.matrix.Matrix":
         def first_nonzero_row(matrix):
@@ -281,9 +325,13 @@ class Matrix:
                         (-1) ** ((row + 1) + (col + 1))
                     ) * solve_minor(sub_m)
             return cofactor_matrix
-
+            
+        if self.is_square() == False:
+                raise TypeError("Matrix is not square")
         mat = self.data
         determinant = self.determinant()
+        if determinant == 0:
+            raise TypeError('Cannot compute Inverse: matrix is singular')
         cofactor_matrix = create_cofactor_matrix(mat)
         adjoint_matrix = Matrix(
             [
@@ -295,6 +343,11 @@ class Matrix:
         return inverse_matrix
 
     def rank(self) -> int:
+        """Calculate the rank of the matrix.
+
+        Returns:
+            int: Rank of the matrix.
+        """
         rref = self.row_echelon()
         rank = sum(1 for row in rref if sum(row) != 0)
         return rank

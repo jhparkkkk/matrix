@@ -12,8 +12,6 @@ class TestMatrix(unittest.TestCase):
     def setUpClass(cls):
         print('\n[Exercice 00] add, substract and scale')
         print('----------------------------------------------------------------------')
-        print('\n[matrix]')
-        print('----------------------------------------------------------------------')
     def setUp(self):
          print(Fore.LIGHTCYAN_EX, self.shortDescription(), Fore.RESET)
     def test_row_echelon(self):
