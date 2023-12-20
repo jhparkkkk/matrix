@@ -24,7 +24,7 @@ def run_all_tests():
                 all_tests_suite.addTest(test_suite)
 
     # Run test suite
-    unittest.TextTestRunner( verbosity = 0).run(all_tests_suite)
+    unittest.TextTestRunner(verbosity = 0).run(all_tests_suite)
 
 if __name__ == "__main__":
     run_all_tests()

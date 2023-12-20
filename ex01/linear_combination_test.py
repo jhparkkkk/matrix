@@ -1,13 +1,13 @@
+from ex01.linear_combination import linear_combination
+from colorama import Fore
+from linear_algebra.matrix import Matrix
+from linear_algebra.vector import Vector
 import unittest
 import sys
 import os
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(SCRIPT_DIR))
-from linear_algebra.vector import Vector
-from linear_algebra.matrix import Matrix
-from colorama import Fore
-from ex01.linear_combination import linear_combination
 
 
 class TestVector(unittest.TestCase):

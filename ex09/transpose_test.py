@@ -18,6 +18,8 @@ class TestMatrix(unittest.TestCase):
         print(Fore.RESET)
 
     def test_transpose(self):
+        """test transpose
+        """
         mat = Matrix([[1., 2.], [3., 4.], [5., 6.]])
         transposed = mat.transpose()
         print(f"original matrix = \n{mat.__str__()}")

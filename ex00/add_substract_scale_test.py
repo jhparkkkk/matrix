@@ -1,11 +1,11 @@
+from colorama import Fore
+from linear_algebra.matrix import Matrix
+from linear_algebra.vector import Vector
 import unittest
 import sys
 import os
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(SCRIPT_DIR))
-from linear_algebra.vector import Vector
-from linear_algebra.matrix import Matrix
-from colorama import Fore
 
 
 class TestVector(unittest.TestCase):
@@ -29,7 +29,8 @@ class TestVector(unittest.TestCase):
             print(f"TypeError: {error}")
 
         test_reshape = Vector([1, 2, 3, 4, 5, 6])
-        self.assertEqual(test_reshape.reshape(2, 3), [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
+        self.assertEqual(test_reshape.reshape(2, 3), [
+                         [1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
         try:
             self.assertEqual(
                 test_reshape.reshape(2, 2), [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]
@@ -93,6 +94,7 @@ class TestMatrix(unittest.TestCase):
     def setUpClass(cls):
         print("\n[Exercice 00] add, substract and scale")
         print("----------------------------------------------------------------------")
+
     def setUp(self):
         print(Fore.LIGHTCYAN_EX)
         print(self.shortDescription())

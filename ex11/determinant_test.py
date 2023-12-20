@@ -21,6 +21,7 @@ class TestMatrix(unittest.TestCase):
         print(Fore.RESET)
 
     def test_determinant(self):
+        "test determinant"
         u = Matrix([[1.0, -1.0], [-1.0, 1.0]])
         determinant = u.determinant()
         self.assertEqual(determinant, 0.0)
